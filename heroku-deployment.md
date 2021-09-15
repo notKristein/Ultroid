@@ -15,18 +15,6 @@
 
 4️⃣ [Some Patience](https://www.google.com/search?q=how+to+be+more+patient)
 
-### Deployment instructions,Some Recomendations and Notes🤗
-
-🔷 **Here I Don't Provide any Deploy button to heroku, We Use Github Actions to Deploy container to Heroku**
-
-🔷 **It is Reconmended to use any DC-4/DC-2 bot token and Heroku Deployment Region should be EU... **❓why I am saying that?**  **In order to get High Upload Speed In telegram Leech Upload it is recomended** **you will get about 20MiB/s in TG upload which is equal to 200mbps and in normal DC-1/DC-5 bot you will get 5MiB/s which is equal to 50Mbps😆**
-   > **To get DC-4 token (i will make bot with your own username and name and transfer its ownership to you via botfather) CONTACT `@XCODERSHUB` FOR MORE...**
- 
-🔷 **Make sure to Set the vars correctly in Github-Actions** ❌Dont edit/delete any ENV vars from heroku or Dont add any new vars from heroku either...
-   > **to edit/add/del ENV vars...Simply go to github actions and rerun the workflow**
-
-🔷 **If you edit any file or Stuff from Git-Repo you will have to RE-RUN the workflow again or else you will face no changes LOL** 
-
 #### Steps
 
 🎈1. **Fork this Repo**
