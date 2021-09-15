@@ -42,6 +42,6 @@
 | HEROKU_APP_NAME | Heroku app name | Name Must be unique | True | Heroku app name that needs to be Updated or Created (Should be in lowercase) |
 | API_ID | Telegram API_ID | Your TG account's API_ID | True | Get this value from [TELEGRAM](https://my.telegram.org/apps). |
 | API_HASH | Telegram API_HASH | Your TG account's API_HASH | True | Get this value from [TELEGRAM](https://my.telegram.org/apps). |
-| REDIS_URI | Redis Endpoint URL | redis-xxxxxxxxxxxxxxxxxxxxxxxxx.cloud.redislabs.com:xxxxx | True | Get this value from [TELEGRAM](https://redislabs.com). |
-| REDIS_PASSWORD | Redis Endpoint Password | xxxxx | True | Get this value from [TELEGRAM](https://redislabs.com) |
+| REDIS_URI | Redis Endpoint URL | redis-xxxxxxxxxxxxxxxxxxxxxxxxx.cloud.redislabs.com:xxxxx | True | Get this value from [REDIS LABS](https://redislabs.com). |
+| REDIS_PASSWORD | Redis Endpoint Password | xxxxx | True | Get this value from [REDIS LABS](https://redislabs.com) |
 | SESSION  | String Session of your Telegram Account | https://appname.herokuapp.com  | True | Get this from [Repl Run](https://repl.it/@TeamUltroid/UltroidStringSession#main.py) **(The bot will NOT work without a session string!!)** |
