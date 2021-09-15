@@ -12,9 +12,9 @@
 ### 👉Pre Requisites
 1️⃣ [Heroku Account](https://heroku.com) --- **mostly importantly needed for heroku api key and deployment**
 
-3️⃣ [Telegram Account](https://telegram.org) --- **mostly importantly needed for the bot to work** 
+2️⃣ [Telegram Account](https://telegram.org) --- **mostly importantly needed for the bot to work** 
 
-4️⃣ [Some Patience](https://www.google.com/search?q=how+to+be+more+patient)
+3️⃣ [Some Patience](https://www.google.com/search?q=how+to+be+more+patient)
 
 #### Steps
 
