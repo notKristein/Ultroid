@@ -24,3 +24,5 @@ jobs:
           HD_REDIS_PASSWORD: ${{secrets.REDIS_PASSWORD}}
           HD_HEROKU_API: ${{secrets.HEROKU_API_KEY}}
           HD_HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
+          HD_BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+          HD_LOG_CHANNEL: ${{secrets.LOG_CHANNEL}}
