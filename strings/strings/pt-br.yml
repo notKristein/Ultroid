@@ -21,7 +21,7 @@ autopic_3: "Tenho uma coleção `{}` relacionado à sua pesquisa !\nIniciando Au
 # inline
 inline_1: "[Sᴜᴘorte Uʟᴛʀᴏɪᴅ](t.me/ultroidsupport)\n\n**Menu De Ajuda {}.\n\nPʟᴜɢɪɴs ~ {}**"
 inline_2: "[Sᴜᴘorte Uʟᴛʀᴏɪᴅ](t.me/ultroidsupport)\n\n**Mᴇɴᴜ Dᴇ Ajuda {}.\n\nExtensões ~ {}**"
-inline_3: "[Sᴜᴘorte Uʟᴛʀᴏɪᴅ](t.me/ultroidsupport)\n\n**Mᴇɴᴜ Dᴇ Ajuda {}.\n\nExtensões ~ {}\n\nDefina **`.setredis Extensões para True`** e REINICIE PARA OBTER EXTENSÕES.**"
+inline_3: "[Sᴜᴘorte Uʟᴛʀᴏɪᴅ](t.me/ultroidsupport)\n\n**Mᴇɴᴜ Dᴇ Ajuda {}.\n\nExtensões ~ {}\n\nDefina **`.setdb Extensões para True`** e REINICIE PARA OBTER EXTENSÕES.**"
 inline_4: "** Bᴏᴛ De {}\n\nMenu Principal\n\nPʟᴜɢɪɴs ~ {}\nExtensões ~ {}\nTᴏᴛᴀʟ de Cᴏᴍᴀɴᴅos ~ {}**"
 inline_5: "**O Menu Foi Fechado**"
 
@@ -40,8 +40,6 @@ afk_3: "`Atualmente estou AFK.\nVisto pela última vez {} atrás.`\n\n**Reason:*
 afk_4: "`Atualmente estou em AFK.\n\nVisto pela última vez {} atrás.`"
 afk_5: "`Ficando em AFK.`\n\n**Reason:** `{}`"
 afk_6: "Estou ficando AFK."
-afk_7: "Está AFK pelo motivo {}"
-afk_8: "Atualmente AFK."
 
 # bot
 alive_1: "**O Ultroid Userbot...**\n\n**{}**\n\n┏━━━━━━━━━━━━━━━━━━━━━\n┣ **Proprietário** - `{}`\n┣ **Versão** - `{}`\n┣ **Py-Ultroid** - `{}`\n┣ **Em Atividade** - `{}`\n┣ **Python** - `{}`\n┣ **Telethon** - `{}`\n┣ **Filial** - `{}`\n┗━━━━━━━━━━━━━━━━━━━━━"

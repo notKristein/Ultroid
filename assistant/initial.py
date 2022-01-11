@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -20,6 +20,9 @@ STRINGS = {
 ❣ Made by **@TeamUltroid**""",
     3: """**💡• FAQs •**
 
+-> [Username Tracker](https://t.me/UltroidUpdates/24)
+-> [Keeping Custom Addons Repo](https://t.me/UltroidUpdates/28)
+-> [Disabling Deploy message](https://t.me/UltroidUpdates/27)
 -> [Setting up TimeZone](https://t.me/UltroidUpdates/22)
 -> [About Inline PmPermit](https://t.me/UltroidUpdates/21)
 -> [About Dual Mode](https://t.me/UltroidUpdates/18)

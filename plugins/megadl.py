@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -13,7 +13,18 @@
 import time
 from datetime import datetime
 
-from . import *
+from . import (
+    HNDLR,
+    LOGS,
+    bash,
+    get_all_files,
+    get_string,
+    humanbytes,
+    os,
+    time_formatter,
+    ultroid_cmd,
+    uploader,
+)
 
 
 @ultroid_cmd(pattern="megadl ?(.*)")
@@ -22,7 +33,7 @@ async def _(e):
     if os.path.isdir("mega"):
         await bash("rm -rf mega")
     os.mkdir("mega")
-    xx = await eor(e, f"Processing...\nTo Check Progress : `{HNDLR}ls mega`")
+    xx = await e.eor(f"{get_string('com_1')}\nTo Check Progress : `{HNDLR}ls mega`")
     s = datetime.now()
     x, y = await bash(f"megadl {link} --path mega")
     ok = get_all_files("mega")
@@ -30,7 +41,7 @@ async def _(e):
     c = 0
     for kk in ok:
         try:
-            res = await uploader(kk, kk, tt, xx, "Uploading...")
+            res = await uploader(kk, kk, tt, xx, get_string("com_6"))
             await e.client.send_file(
                 e.chat_id,
                 res,

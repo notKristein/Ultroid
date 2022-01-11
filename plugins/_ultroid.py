@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -11,7 +11,7 @@ from telethon.errors import (
     ChatSendMediaForbiddenError,
 )
 
-from . import *
+from . import LOG_CHANNEL, LOGS, Button, asst, eor, get_string, ultroid_cmd
 
 REPOMSG = """
 • **ULTROID USERBOT** •\n
@@ -22,7 +22,7 @@ REPOMSG = """
 
 RP_BUTTONS = [
     [
-        Button.url("Repo", "https://github.com/TeamUltroid/Ultroid"),
+        Button.url(get_string("bot_3"), "https://github.com/TeamUltroid/Ultroid"),
         Button.url("Addons", "https://github.com/TeamUltroid/UltroidAddons"),
     ],
     [Button.url("Support Group", "t.me/ultroidsupport")],
@@ -35,7 +35,7 @@ ULTSTRING = """🎇 **Thanks for Deploying Ultroid Userbot!**
 
 @ultroid_cmd(
     pattern="repo$",
-    type=["official", "manager"],
+    manager=True,
 )
 async def repify(e):
     try:
@@ -50,10 +50,10 @@ async def repify(e):
         pass
     except Exception as er:
         LOGS.info("Error while repo command : " + str(er))
-    await eor(e, REPOMSG)
+    await e.eor(REPOMSG)
 
 
-@ultroid_cmd(pattern="ultroid")
+@ultroid_cmd(pattern="ultroid$")
 async def useUltroid(rs):
     button = Button.inline("Start >>", "initft_2")
     msg = await asst.send_message(

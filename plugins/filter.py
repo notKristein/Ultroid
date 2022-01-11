@@ -1,10 +1,9 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
-
 """
 ✘ Commands Available -
 
@@ -21,12 +20,14 @@
 import os
 import re
 
-from pyUltroid.functions.filter_db import *
+from pyUltroid.dB.filter_db import add_filter, get_filter, list_filter, rem_filter
+from pyUltroid.functions.tools import create_tl_btn, format_btn, get_msg_button
 from telegraph import upload_file as uf
 from telethon.tl.types import User
 from telethon.utils import pack_bot_file_id
 
-from . import *
+from . import events, get_string, mediainfo, udB, ultroid_bot, ultroid_cmd
+from ._inline import something
 
 
 @ultroid_cmd(pattern="addfilter ?(.*)")
@@ -35,7 +36,8 @@ async def af(e):
     wt = await e.get_reply_message()
     chat = e.chat_id
     if not (wt and wrd):
-        return await eor(e, "`Use this command word to set as filter and reply...`")
+        return await e.eor(get_string("flr_1"))
+    btn = format_btn(wt.buttons) if wt.buttons else None
     if wt and wt.media:
         wut = mediainfo(wt.media)
         if wut.startswith(("pic", "gif")):
@@ -44,7 +46,7 @@ async def af(e):
             m = "https://telegra.ph" + variable[0]
         elif wut == "video":
             if wt.media.document.size > 8 * 1000 * 1000:
-                return await eor(x, "`Unsupported Media`", time=5)
+                return await e.eor(get_string("com_4"), time=5)
             dl = await wt.download_media()
             variable = uf(dl)
             os.remove(dl)
@@ -52,12 +54,19 @@ async def af(e):
         else:
             m = pack_bot_file_id(wt.media)
         if wt.text:
-            add_filter(int(chat), wrd, wt.text, m)
+            txt = wt.text
+            if not btn:
+                txt, btn = get_msg_button(wt.text)
+            add_filter(chat, wrd, txt, m, btn)
         else:
-            add_filter(int(chat), wrd, None, m)
+            add_filter(chat, wrd, None, m, btn)
     else:
-        add_filter(int(chat), wrd, wt.text, None)
-    await eor(e, f"Done : Filter `{wrd}` Saved.")
+        txt = wt.text
+        if not btn:
+            txt, btn = get_msg_button(wt.text)
+        add_filter(chat, wrd, txt, None, btn)
+    await e.eor(get_string("flr_4").format(wrd))
+    ultroid_bot.add_handler(filter_func, events.NewMessage())
 
 
 @ultroid_cmd(pattern="remfilter ?(.*)")
@@ -65,9 +74,9 @@ async def rf(e):
     wrd = (e.pattern_match.group(1)).lower()
     chat = e.chat_id
     if not wrd:
-        return await eor(e, "`Give the filter to remove..`")
+        return await e.eor(get_string("flr_3"))
     rem_filter(int(chat), wrd)
-    await eor(e, f"Done : Filter `{wrd}` Removed.")
+    await e.eor(get_string("flr_5").format(wrd))
 
 
 @ultroid_cmd(pattern="listfilter$")
@@ -75,13 +84,11 @@ async def lsnote(e):
     x = list_filter(e.chat_id)
     if x:
         sd = "Filters Found In This Chats Are\n\n"
-        await eor(e, sd + x)
-    else:
-        await eor(e, "No Filters Found Here")
+        return await e.eor(sd + x)
+    await e.eor(get_string("flr_6"))
 
 
-@ultroid_bot.on(events.NewMessage())
-async def fl(e):
+async def filter_func(e):
     if isinstance(e.sender, User) and e.sender.bot:
         return
     xx = (e.text).lower()
@@ -95,4 +102,11 @@ async def fl(e):
                 if k:
                     msg = k["msg"]
                     media = k["media"]
+                    if k.get("button"):
+                        btn = create_tl_btn(k["button"])
+                        return await something(e, msg, media, btn)
                     await e.reply(msg, file=media)
+
+
+if udB.get_key("FILTERS"):
+    ultroid_bot.add_handler(filter_func, events.NewMessage())

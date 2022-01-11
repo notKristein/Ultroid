@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -27,7 +27,7 @@ import os
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.tl.functions.photos import DeletePhotosRequest, UploadProfilePhotoRequest
 
-from . import *
+from . import eod, eor, get_string, mediainfo, ultroid_cmd
 
 TMP_DOWNLOAD_DIRECTORY = "resources/downloads/"
 
@@ -36,7 +36,7 @@ TMP_DOWNLOAD_DIRECTORY = "resources/downloads/"
 
 @ultroid_cmd(pattern="setbio ?(.*)", fullsudo=True)
 async def _(ult):
-    ok = await eor(ult, "...")
+    ok = await ult.eor("...")
     set = ult.pattern_match.group(1)
     try:
         await ult.client(UpdateProfileRequest(about=set))
@@ -50,7 +50,7 @@ async def _(ult):
 
 @ultroid_cmd(pattern="setname ?((.|//)*)", fullsudo=True)
 async def _(ult):
-    ok = await eor(ult, "...")
+    ok = await ult.eor("...")
     names = ult.pattern_match.group(1)
     first_name = names
     last_name = ""
@@ -74,14 +74,13 @@ async def _(ult):
 @ultroid_cmd(pattern="setpic$", fullsudo=True)
 async def _(ult):
     if not ult.is_reply:
-        return await eor(ult, "`Reply to a Media..`", time=5)
+        return await ult.eor("`Reply to a Media..`", time=5)
     reply_message = await ult.get_reply_message()
-    ok = await eor(ult, "...")
+    ok = await ult.eor(get_string("com_1"))
     replfile = await reply_message.download_media()
     file = await ult.client.upload_file(replfile)
-    mediain = mediainfo(reply_message.media)
     try:
-        if "pic" in mediain:
+        if "pic" in mediainfo(reply_message.media):
             await ult.client(UploadProfilePhotoRequest(file))
         else:
             await ult.client(UploadProfilePhotoRequest(video=file))
@@ -96,7 +95,7 @@ async def _(ult):
 
 @ultroid_cmd(pattern="delpfp ?(.*)", fullsudo=True)
 async def remove_profilepic(delpfp):
-    ok = await eor(delpfp, "...")
+    ok = await eor(delpfp, "`...`")
     group = delpfp.text[8:]
     if group == "all":
         lim = 0
@@ -112,20 +111,16 @@ async def remove_profilepic(delpfp):
 @ultroid_cmd(pattern="poto ?(.*)")
 async def gpoto(e):
     ult = e.pattern_match.group(1)
-    a = await eor(e, "`Processing...`")
-    if not ult and e.is_reply:
-        gs = await e.get_reply_message()
-        ult = gs.sender_id
-    if not (ult or e.is_reply):
-        ult = e.chat_id
-    try:
-        okla = await e.client.download_profile_photo(
-            ult,
-            "profile.jpg",
-            download_big=True,
-        )
-        await a.delete()
-        await e.reply(file=okla)
-        os.remove(okla)
-    except Exception as er:
-        await eor(e, f"ERROR - {er}")
+    a = await e.eor(get_string("com_1"))
+    if not ult:
+        if e.is_reply:
+            gs = await e.get_reply_message()
+            ult = gs.sender_id
+        else:
+            ult = e.chat_id
+    okla = await e.client.download_profile_photo(ult)
+    if not okla:
+        return await eor(a, "`Pfp Not Found...`")
+    await a.delete()
+    await e.reply(file=okla)
+    os.remove(okla)

@@ -12,7 +12,6 @@ com_2: "`Buscando...`"
 help_1: "`{}` No es un complemento válido!"
 help_2: "`El bot no respondió a la consulta en línea.\nConsidere usar {}restart`"
 help_3: "`Por favor active el modo en línea para su bot desde` @Botfather."
-help_4: "Oye,\nEstás en modo bot.\nLos usuarios del modo bot no pueden obtener ayuda directamente ...\nEn su lugar, copie, pegue lo siguiente en el chat y haga clic en la ventana emergente\n\n `@{} ultd`"
 
 #autopic
 autopic_1: "Oye, dame un mensaje de texto .."
@@ -41,8 +40,6 @@ afk_3: "Estoy AFK\nVisto por ultima vez {}`\n**Razón:** `{}`"
 afk_4: "Ultima vez visto {}.`"
 afk_5: "`Yendo AFK.`\n\n**Razón:** `{}`"
 afk_6: "Me voy AFK."
-afk_7: "Actualmente AFK con el motivo de: {}"
-afk_8: "Actualmente AFK."
 
 #bot
 alive_1: "**El Userbot Ultroid...**\n\n **{}**\n\n ┏━━━━━━━━━━━━━━━━━━━━━\n ┣ **Dueño** - `{}`\n ┣ **Versión** - `{}`\n ┣ **Tiempo de actividad** - `{}`\n ┣ **Python** - `{}`\n ┣ **Telethon** - `{}`\n ┣ **Rama** - `{}`\n ┗━━━━━━━━━━━━━━━━━━━━━"
@@ -148,9 +145,9 @@ udl_2: "Descarga exitosa..\npara\n`{}`\nen `{}`"
 udl_3: "`Da una ruta específica al archivo`"
 
 #words
-wrd_1: "**Palabra** - `{}`\n\n**Significados** -\n"
-wrd_2: "**Palabra** - `{}`\n\n**Sinonimos** -\n"
-wrd_3: "**Palabra** - `{}`\n\n**Antonimos** -\n"
+wrd_1: "**Palabra** - `{}`\n\n**Significados** - __{}__\n"
+wrd_2: "**Palabra** - `{}`\n\n**Sinonimos** - \n"
+wrd_3: "**Palabra** - `{}`\n\n**Antonimos** - \n"
 #---------------------------------------------------#
 
 #assisant

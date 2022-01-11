@@ -1,10 +1,9 @@
 # Ultroid - UserBot
-# Copyright (C) 2021 TeamUltroid
+# Copyright (C) 2021-2022 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
-
 """
 ✘ Commands Available -
 
@@ -23,11 +22,13 @@
 """
 import os
 
-from pyUltroid.functions.notes_db import *
+from pyUltroid.dB.notes_db import add_note, get_notes, list_note, rem_note
+from pyUltroid.functions.tools import create_tl_btn, format_btn, get_msg_button
 from telegraph import upload_file as uf
 from telethon.utils import pack_bot_file_id
 
-from . import *
+from . import events, get_string, mediainfo, udB, ultroid_bot, ultroid_cmd
+from ._inline import something
 
 
 @ultroid_cmd(pattern="addnote ?(.*)", admins_only=True)
@@ -36,11 +37,10 @@ async def an(e):
     wt = await e.get_reply_message()
     chat = e.chat_id
     if not (wt and wrd):
-        return await eor(
-            e, "`Use this Command with Reply and word to use a note.`", time=5
-        )
+        return await e.eor(get_string("notes_1"), time=5)
     if "#" in wrd:
         wrd = wrd.replace("#", "")
+    btn = format_btn(wt.buttons) if wt.buttons else None
     if wt and wt.media:
         wut = mediainfo(wt.media)
         if wut.startswith(("pic", "gif")):
@@ -50,7 +50,7 @@ async def an(e):
             m = "https://telegra.ph" + variable[0]
         elif wut == "video":
             if wt.media.document.size > 8 * 1000 * 1000:
-                return await eor(x, "`Unsupported Media`", time=5)
+                return await e.eor(get_string("com_4"), time=5)
             dl = await wt.download_media()
             variable = uf(dl)
             os.remove(dl)
@@ -58,12 +58,19 @@ async def an(e):
         else:
             m = pack_bot_file_id(wt.media)
         if wt.text:
-            add_note(int(chat), wrd, wt.text, m)
+            txt = wt.text
+            if not btn:
+                txt, btn = get_msg_button(wt.text)
+            add_note(chat, wrd, txt, m, btn)
         else:
-            add_note(int(chat), wrd, None, m)
+            add_note(chat, wrd, None, m, btn)
     else:
-        add_note(int(chat), wrd, wt.text, None)
-    await eor(e, f"Done Note : `#{wrd}` saved.")
+        txt = wt.text
+        if not btn:
+            txt, btn = get_msg_button(wt.text)
+        add_note(chat, wrd, txt, None, btn)
+    await e.eor(get_string("notes_2").format(wrd))
+    ultroid_bot.add_handler(notes, events.NewMessage())
 
 
 @ultroid_cmd(pattern="remnote ?(.*)", admins_only=True)
@@ -71,13 +78,11 @@ async def rn(e):
     wrd = (e.pattern_match.group(1)).lower()
     chat = e.chat_id
     if not wrd:
-        return await eor(
-            e, "`Give me the note handler which you want to remove.`", time=5
-        )
+        return await e.eor(get_string("notes_3"), time=5)
     if wrd.startswith("#"):
         wrd = wrd.replace("#", "")
     rem_note(int(chat), wrd)
-    await eor(e, f"Done Note: `#{wrd}` Removed.")
+    await e.eor(f"Done Note: `#{wrd}` Removed.")
 
 
 @ultroid_cmd(pattern="listnote$", admins_only=True)
@@ -85,21 +90,24 @@ async def lsnote(e):
     x = list_note(e.chat_id)
     if x:
         sd = "Notes Found In This Chats Are\n\n"
-        await eor(e, sd + x)
-    else:
-        await eor(e, "No Notes Found Here")
+        return await e.eor(sd + x)
+    await e.eor(get_string("notes_5"))
 
 
-@ultroid_bot.on(events.NewMessage())
 async def notes(e):
-    xx = e.text
-    if not xx.startswith("#"):
-        return
-    xx = (xx.replace("#", "")).lower().split()
-    chat = e.chat_id
+    xx = [z.replace("#", "") for z in e.text.lower().split() if z.startswith("#")]
     for word in xx:
-        k = get_notes(chat, word)
+        k = get_notes(e.chat_id, word)
         if k:
             msg = k["msg"]
             media = k["media"]
-            await e.reply(msg, file=media)
+            if k.get("button"):
+                btn = create_tl_btn(k["button"])
+                return await something(e, msg, media, btn)
+            await e.client.send_message(
+                e.chat_id, msg, file=media, reply_to=e.reply_to_msg_id or e.id
+            )
+
+
+if udB.get_key("NOTE"):
+    ultroid_bot.add_handler(notes, events.NewMessage())
