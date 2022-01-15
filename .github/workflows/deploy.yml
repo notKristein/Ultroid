@@ -15,7 +15,7 @@ jobs:
           usedocker: true
           docker_heroku_process_type: ultroid
           stack: "container"
-          region: "us"
+          region: "eu"
         env:
           HD_API_ID: ${{secrets.API_ID}}
           HD_API_HASH: ${{secrets.API_HASH}}
